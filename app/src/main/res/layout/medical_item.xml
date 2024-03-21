@@ -1,75 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/slikaItem"
-        android:layout_width="100dp"
-        android:layout_height="110dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/plant1" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/nazivItem"
-        android:layout_width="260dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/slikaItem"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:srcCompat="@drawable/plant1" />
 
-    <TextView
-        android:id="@+id/upozorenjeItem"
-        android:layout_width="260dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="644dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nazivItem" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/korist1Item"
-        android:layout_width="70dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="615dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/korist2Item"
-        app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem"
-        app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/nazivItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="start"
+                android:text="TextView"
+                app:autoSizeTextType="uniform" />
 
-    <TextView
-        android:id="@+id/korist2Item"
-        android:layout_width="70dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="615dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/korist3Item"
-        app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem" />
+            <TextView
+                android:id="@+id/upozorenjeItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="start"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="14sp"
+                app:autoSizeTextType="uniform" />
 
-    <TextView
-        android:id="@+id/korist3Item"
-        android:layout_width="70dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="615dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem"
-        tools:layout_editor_absoluteX="325dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/korist1Item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="TextView"
+                    android:textSize="14sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/korist2Item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="left"
+                    android:text="TextView"
+                    android:textSize="14sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/korist3Item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:gravity="left"
+                    android:text="TextView"
+                    android:textSize="14sp"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
