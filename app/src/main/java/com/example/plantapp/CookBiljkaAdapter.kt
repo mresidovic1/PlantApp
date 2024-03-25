@@ -9,10 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class CookBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<CookBiljkaAdapter.CookViewHolder>(){
+    private lateinit var cookListener : OnItemClickListener
+    interface OnItemClickListener{
+        fun OnItemClick(position: Int)
+    }
+    fun setOnItemClickListener(listener:OnItemClickListener){
+        cookListener=listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CookViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cooking_item,parent,false)
-        return CookViewHolder(view)
+        return CookViewHolder(view,cookListener)
     }
 
     override fun getItemCount(): Int = biljke.size
@@ -24,18 +31,26 @@ class CookBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapte
         holder.slikaItem.setImageResource(id)
         holder.profilOkusaItem.text = trenutniItem.profilOkusa.opis
         holder.nazivItem.text = trenutniItem.naziv
-        holder.jelo1Item.text = trenutniItem.jela[0].toString()
-        val visak : String
-        visak = "visak"
-        holder.jelo3Item.text = visak
+        holder.jelo1Item.text = trenutniItem.jela.getOrNull(0)
+        holder.jelo2Item.text = trenutniItem.jela.getOrNull(1)
+        holder.jelo3Item.text = trenutniItem.jela.getOrNull(2)
     }
 
-    class CookViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
+    class CookViewHolder (itemView : View,listener:OnItemClickListener) : RecyclerView.ViewHolder(itemView){
         val slikaItem : ImageView = itemView.findViewById(R.id.slikaItem)
         val nazivItem : TextView = itemView.findViewById(R.id.nazivItem)
         val profilOkusaItem : TextView = itemView.findViewById(R.id.profilOkusaItem)
         val jelo1Item : TextView = itemView.findViewById(R.id.jelo1Item)
         val jelo2Item : TextView = itemView.findViewById(R.id.jelo2Item)
         val jelo3Item : TextView = itemView.findViewById(R.id.jelo3Item)
+        init{
+            itemView.setOnClickListener {
+                listener.OnItemClick(adapterPosition)
+            }
+        }
+    }
+    fun updateList(srodnaLista : List<Biljka>){
+        biljke=srodnaLista
+        notifyDataSetChanged()
     }
 }

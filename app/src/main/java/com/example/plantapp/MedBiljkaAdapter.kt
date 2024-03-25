@@ -10,9 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MedBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<MedBiljkaAdapter.BiljkaViewHolder>(){
 
+    private lateinit var medListener : OnItemClickListener
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener:OnItemClickListener){
+        medListener=listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BiljkaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.medical_item,parent,false)
-        return BiljkaViewHolder(view)
+        return BiljkaViewHolder(view,medListener)
     }
 
     override fun getItemCount(): Int = biljke.size
@@ -24,19 +33,27 @@ class MedBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter
         holder.slikaItem.setImageResource(id)
         holder.upozorenjeItem.text = trenutniItem.medicinskoUpozorenje
         holder.nazivItem.text = trenutniItem.naziv
-        holder.korist1Item.text = trenutniItem.medicinskeKoristi[0].opis
-        holder.korist2Item.text = trenutniItem.medicinskeKoristi[1].opis
-        val visak : String
-        visak = "visak"
-        holder.korist3Item.text = visak
+        holder.korist1Item.text = trenutniItem.medicinskeKoristi.getOrNull(0)?.opis
+        holder.korist2Item.text = trenutniItem.medicinskeKoristi.getOrNull(1)?.opis
+        holder.korist3Item.text = trenutniItem.medicinskeKoristi.getOrNull(2)?.opis
     }
 
-    class BiljkaViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
+    class BiljkaViewHolder (itemView : View, listener:OnItemClickListener) : RecyclerView.ViewHolder(itemView){
         val slikaItem : ImageView = itemView.findViewById(R.id.slikaItem)
         val nazivItem : TextView = itemView.findViewById(R.id.nazivItem)
         val upozorenjeItem : TextView = itemView.findViewById(R.id.upozorenjeItem)
         val korist1Item : TextView = itemView.findViewById(R.id.korist1Item)
         val korist2Item : TextView = itemView.findViewById(R.id.korist2Item)
         val korist3Item : TextView = itemView.findViewById(R.id.korist3Item)
+
+        init{
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
+            }
+        }
+    }
+    fun updateList(srodnaLista : List<Biljka>){
+        biljke=srodnaLista
+        notifyDataSetChanged()
     }
 }
