@@ -4,16 +4,23 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background1"
     tools:context=".MainActivity">
 
     <Spinner
         android:id="@+id/modSpinner"
-        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
         android:layout_width="260dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="11dp"
+        android:background="@drawable/zaobljeni_spinner"
+        android:foregroundTint="#000000"
+        android:spinnerMode="dropdown"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-condensed"
+        android:textAlignment="gravity"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toStartOf="@+id/resetBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,13 +39,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resetBtn" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/resetBtn"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/zaobljeni_button"
+        android:backgroundTint="#805E7220"
+        android:fontFamily="sans-serif-condensed"
         android:text="RESET"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

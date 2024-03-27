@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         val rstBtn : Button = findViewById(R.id.resetBtn)
         modSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             var srodneBiljke = mutableListOf<Biljka>()
+            var rst : Boolean = false
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: android.view.View?,
@@ -51,13 +52,16 @@ class MainActivity : AppCompatActivity() {
             ) {
                 when (position) {
                     0 -> {
-                        val adapter = MedBiljkaAdapter(biljkeLista)
+                        val adapter : MedBiljkaAdapter
+                        if(srodneBiljke.size!=0 && !rst) adapter = MedBiljkaAdapter(srodneBiljke)
+                        else adapter = MedBiljkaAdapter(biljkeLista)
                         MedbiljkeRvAdapter = adapter
                         biljkeRV.adapter = MedbiljkeRvAdapter
                         adapter.setOnItemClickListener(object : MedBiljkaAdapter.OnItemClickListener{
                             @SuppressLint("NotifyDataSetChanged")
                             override fun onItemClick(position: Int) {
                                 srodneBiljke.clear()
+                                rst=false
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
@@ -71,19 +75,20 @@ class MainActivity : AppCompatActivity() {
                         })
                         rstBtn.setOnClickListener {
                             MedbiljkeRvAdapter.updateList(originalnaLista)
+                            rst=true
                         }
                     }
                     1 -> {
                         val adapter : CookBiljkaAdapter
-                        if(srodneBiljke.size!=0) adapter = CookBiljkaAdapter(srodneBiljke)
+                        if(srodneBiljke.size!=0 && !rst) adapter = CookBiljkaAdapter(srodneBiljke)
                         else adapter = CookBiljkaAdapter(biljkeLista)
-
                         CookbiljkeRvAdapter = adapter
                         biljkeRV.adapter = CookbiljkeRvAdapter
                         adapter.setOnItemClickListener(object : CookBiljkaAdapter.OnItemClickListener{
                             @SuppressLint("NotifyDataSetChanged")
                             override fun OnItemClick(position: Int) {
                                 srodneBiljke.clear()
+                                rst=false
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
@@ -97,11 +102,12 @@ class MainActivity : AppCompatActivity() {
                         })
                         rstBtn.setOnClickListener {
                             CookbiljkeRvAdapter.updateList(originalnaLista)
+                            rst=true
                         }
                     }
                     2 -> {
                         val adapter : BotanicBiljkaAdapter
-                        if(srodneBiljke.size!=0)
+                        if(srodneBiljke.size!=0 && !rst)
                         adapter = BotanicBiljkaAdapter(srodneBiljke)
                         else adapter = BotanicBiljkaAdapter(biljkeLista)
                         BotanicbiljkeRvAdapter = adapter
@@ -110,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                             @SuppressLint("NotifyDataSetChanged")
                             override fun onItemClick(position: Int) {
                                 srodneBiljke.clear()
+                                rst=false
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
@@ -123,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                         })
                         rstBtn.setOnClickListener {
                             BotanicbiljkeRvAdapter.updateList(originalnaLista)
+                            rst=true
                         }
                     }
                 }
