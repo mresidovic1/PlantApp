@@ -72,16 +72,6 @@ val biljke = listOf(
         zemljisniTipovi = listOf(Zemljiste.PJESKOVITO, Zemljiste.CRNICA)
     ),
     Biljka(
-        naziv = "Lavanda (Lavandula angustifolia)",
-        porodica = "Lamiaceae (metvice)",
-        medicinskoUpozorenje = "Nije preporučljivo za trudnice, dojilje i djecu mlađu od 3 godine. Također, treba izbjegavati kontakt lavanda ulja sa očima.",
-        medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE),
-        profilOkusa = ProfilOkusaBiljke.AROMATICNO,
-        jela = listOf("Jogurt sa voćem"),
-        klimatskiTipovi = listOf(KlimatskiTip.SUHA),
-        zemljisniTipovi = listOf(Zemljiste.PJESKOVITO)
-    ),
-    Biljka(
         naziv = "Eukaliptus (Eucalyptus globulus)",
         porodica = "Myrtaceae (mrtvačnice)",
         medicinskoUpozorenje = "Nije preporučljivo za oralnu upotrebu kod djece mlađe od 6 godina. Može izazvati alergijske reakcije kod osjetljivih osoba.",

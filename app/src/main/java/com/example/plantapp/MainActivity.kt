@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
-                                        if(biljka!=izabranaBiljka && biljka.medicinskeKoristi.toSet().intersect(izabranaBiljka.medicinskeKoristi.toSet()).isNotEmpty()){
+                                        if(biljka.medicinskeKoristi.toSet().intersect(izabranaBiljka.medicinskeKoristi.toSet()).isNotEmpty()){
                                             srodneBiljke.add(biljka)
                                         }
                                     }
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
-                                        if(biljka!=izabranaBiljka && (biljka.jela.toSet().intersect(izabranaBiljka.jela.toSet()).isNotEmpty() || biljka.profilOkusa == izabranaBiljka.profilOkusa)){
+                                        if(biljka.jela.toSet().intersect(izabranaBiljka.jela.toSet()).isNotEmpty() || biljka.profilOkusa == izabranaBiljka.profilOkusa){
                                             srodneBiljke.add(biljka)
                                         }
                                     }
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                                 if (position >= 0 && position < biljkeLista.size) {
                                     val izabranaBiljka = biljkeLista[position]
                                     for(biljka in biljkeLista){
-                                        if(biljka!=izabranaBiljka && (biljka.zemljisniTipovi.toSet().intersect(izabranaBiljka.zemljisniTipovi.toSet()).isNotEmpty() || biljka.klimatskiTipovi.toSet().intersect(izabranaBiljka.klimatskiTipovi.toSet()).isNotEmpty())){
+                                        if(biljka.zemljisniTipovi.toSet().intersect(izabranaBiljka.zemljisniTipovi.toSet()).isNotEmpty() && biljka.klimatskiTipovi.toSet().intersect(izabranaBiljka.klimatskiTipovi.toSet()).isNotEmpty()){
                                             srodneBiljke.add(biljka)
                                         }
                                     }
