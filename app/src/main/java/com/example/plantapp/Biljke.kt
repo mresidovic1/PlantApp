@@ -150,16 +150,6 @@ val biljke = listOf(
         jela = listOf("Piletina s majčinom dušicom", "Čaj od majčine dušice"),
         klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA),
         zemljisniTipovi = listOf(Zemljiste.PJESKOVITO)
-    ),
-    Biljka(
-        naziv = "Bazilika (Ocimum basilicum)",
-        porodica = "Lamiaceae (metvice)",
-        medicinskoUpozorenje = "Može iritirati kožu osjetljivu na sunce. Preporučuje se oprezna upotreba pri korištenju ulja bazilika.",
-        medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE),
-        profilOkusa = ProfilOkusaBiljke.AROMATICNO,
-        jela = listOf("Caprese salata", "Pesto umak"),
-        klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA),
-        zemljisniTipovi = listOf(Zemljiste.PJESKOVITO)
     )
 )
 
