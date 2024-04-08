@@ -13,7 +13,6 @@
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="20dp"
         android:background="@drawable/zaobljeni_spinner"
         android:fontFamily="sans-serif-condensed"
         android:foregroundTint="#000000"
@@ -21,7 +20,6 @@
         android:textAlignment="gravity"
         android:textColor="@android:color/black"
         android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/resetBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,21 +28,22 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resetBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/modSpinner" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/resetBtn"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/zaobljeni_button"
         android:backgroundTint="#805E7220"
         android:fontFamily="sans-serif-condensed"
@@ -52,7 +51,26 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/biljkeRV" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/novaBiljkaBtn"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/zaobljeni_button"
+        android:backgroundTint="#805E7220"
+        android:fontFamily="sans-serif-condensed"
+        android:text="DODAJ"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/modSpinner"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

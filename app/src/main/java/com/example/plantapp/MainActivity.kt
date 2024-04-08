@@ -1,6 +1,7 @@
 package com.example.plantapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -41,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         }
         modSpinner.setSelection(0)
         val rstBtn : Button = findViewById(R.id.resetBtn)
+        val novaBiljkaBtn : Button = findViewById(R.id.novaBiljkaBtn)
+        novaBiljkaBtn.setOnClickListener {
+            val newAct = Intent(this,NovaBiljkaActivity::class.java)
+            startActivity(newAct)
+        }
+
         modSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             var srodneBiljke = mutableListOf<Biljka>()
             var rst : Boolean = false
