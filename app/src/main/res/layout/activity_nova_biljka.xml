@@ -24,203 +24,275 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/zaobljena_slika_background" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="15dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/listview_border"
-        android:orientation="vertical"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/nazivET"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5sp"
-            android:layout_marginLeft="5sp"
-            android:layout_marginTop="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:ems="10"
-            android:fontFamily="sans-serif-condensed-light"
-            android:hint="Naziv"
-            android:inputType="text"
-            android:textSize="14sp" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/porodicaET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:ems="10"
-            android:fontFamily="sans-serif-condensed-light"
-            android:hint="Porodica"
-            android:inputType="text"
-            android:textSize="14sp" />
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/listview_border"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/medicinskoUpozorenjeET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:ems="10"
-            android:fontFamily="sans-serif-condensed-light"
-            android:hint="Medicinsko upozorenje"
-            android:inputType="text"
-            android:textSize="14sp" />
+                <EditText
+                    android:id="@+id/nazivET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:hint="Naziv"
+                    android:inputType="text"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/jeloET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5sp"
-            android:layout_marginEnd="5sp"
-            android:layout_marginBottom="5sp"
-            android:ems="10"
-            android:fontFamily="sans-serif-condensed-light"
-            android:hint="Jelo"
-            android:inputType="text"
-            android:textSize="14sp" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/porodicaET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:hint="Porodica"
+                    android:inputType="text"
+                    android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <EditText
+                    android:id="@+id/medicinskoUpozorenjeET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:hint="Medicinsko upozorenje"
+                    android:inputType="text"
+                    android:textSize="14sp" />
 
-        <ListView
-            android:id="@+id/medicinskaKoristLV"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/listview_border" />
+                <EditText
+                    android:id="@+id/jeloET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:hint="Jelo"
+                    android:inputType="text"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-        <ListView
-            android:id="@+id/klimatskiTipLV"
-            android:layout_width="match_parent"
-            android:layout_height="151dp"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/listview_border" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dodajJeloBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/zaobljeni_button"
+                android:backgroundTint="#A96E69"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Dodaj jelo"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-        <ListView
-            android:id="@+id/zemljisniTipLV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/listview_border" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="cursive"
+                android:text="Medicinske koristi:"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold">
 
-    </LinearLayout>
+            </TextView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/slikaIV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.972"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@id/dodajJeloBtn">
+            <ListView
+                android:id="@+id/medicinskaKoristLV"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="0sp"
+                android:background="@drawable/listview_border" />
 
-        <ListView
-            android:id="@+id/jelaLV"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/listview_border" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="cursive"
+                android:text="Klimatski tipovi:"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold">
 
-        <ListView
-            android:id="@+id/profilOkusaLV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/listview_border" />
-    </LinearLayout>
+            </TextView>
+
+            <ListView
+                android:id="@+id/klimatskiTipLV"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="0sp"
+                android:background="@drawable/listview_border" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="cursive"
+                android:text="Zemljišni tipovi:"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <ListView
+                android:id="@+id/zemljisniTipLV"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/listview_border" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="cursive"
+                android:text="Jela:"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <ListView
+                android:id="@+id/jelaLV"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/listview_border" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="cursive"
+                android:text="Profil okusa:"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <ListView
+                android:id="@+id/profilOkusaLV"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/listview_border" />
+
+            <ImageView
+                android:id="@+id/slikaIV"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="0sp"
+                app:layout_constraintBottom_toTopOf="@id/uslikajBiljkuBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+                app:srcCompat="@drawable/plant1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/uslikajBiljkuBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/zaobljeni_button"
+                android:backgroundTint="#A96E69"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Uslikaj biljku"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/dodajBiljkuBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.428"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@id/slikaIV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dodajBiljkuBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/zaobljeni_button"
+                android:backgroundTint="#68A24F"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Dodaj biljku"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/uslikajBiljkuBtn" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dodajBiljkuBtn"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/zaobljeni_button"
-        android:backgroundTint="#68A24F"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Dodaj biljku"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/uslikajBiljkuBtn" />
+        </LinearLayout>
+    </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dodajJeloBtn"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/zaobljeni_button"
-        android:backgroundTint="#A96E69"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Dodaj jelo"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/uslikajBiljkuBtn"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/zaobljeni_button"
-        android:backgroundTint="#A96E69"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Uslikaj biljku"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/dodajBiljkuBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@id/slikaIV" />
-
-    <ImageView
-        android:id="@+id/slikaIV"
-        android:layout_width="159dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@id/uslikajBiljkuBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:srcCompat="@drawable/plant1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

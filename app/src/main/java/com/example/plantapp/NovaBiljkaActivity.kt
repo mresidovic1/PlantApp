@@ -33,7 +33,6 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var porodica : EditText
     private lateinit var medUpozorenje : EditText
     private lateinit var jelo : EditText
-    private lateinit var jelaAdapter : ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +58,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         val medArrayAdapter : ArrayAdapter<MedicinskaKorist> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,medKoristi)
         val klimatskiTipoviArrayAdapter : ArrayAdapter<KlimatskiTip> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,klimatskiTipovi)
         val zemljisniTipoviArrayAdapter : ArrayAdapter<Zemljiste> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,zemljisniTipovi)
-        val profilOkusaAdapter : ArrayAdapter<ProfilOkusaBiljke> = ArrayAdapter(this, android.R.layout.simple_list_item_1,profiliOkusa)
+        val profilOkusaAdapter : ArrayAdapter<ProfilOkusaBiljke> = ArrayAdapter(this, android.R.layout.simple_list_item_checked,profiliOkusa)
         medKoristLV.adapter=medArrayAdapter
         klimatskiTipLV.adapter=klimatskiTipoviArrayAdapter
         zemljisniTipLV.adapter=zemljisniTipoviArrayAdapter
@@ -69,7 +68,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         zemljisniTipLV.choiceMode=ListView.CHOICE_MODE_MULTIPLE
         profilOkusaLV.choiceMode=ListView.CHOICE_MODE_SINGLE
         val jela: ArrayList<String> = ArrayList()
-        jelaAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, jela)
+        val jelaAdapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_checked, jela)
         jelaLV.adapter = jelaAdapter
         dodajJeloBtn.setOnClickListener {
             val novoJelo = jelo.text.toString()
@@ -103,6 +102,53 @@ class NovaBiljkaActivity : AppCompatActivity() {
             } catch (e: ActivityNotFoundException) {
                 // display error state to the user
             }
+        }
+        dodajBiljkuBtn.setOnClickListener {
+            val nazivBiljke = naziv.text.toString()
+            val porodicaBiljke = porodica.text.toString()
+            val medUpozorenjeBiljke = medUpozorenje.text.toString()
+
+            val selectedMedKoristiPositions = medKoristLV.checkedItemPositions
+            val selectedMedKoristi = mutableListOf<MedicinskaKorist>()
+            for (i in 0 until selectedMedKoristiPositions.size()) {
+                if (selectedMedKoristiPositions.valueAt(i)) {
+                    selectedMedKoristi.add(medKoristLV.adapter.getItem(selectedMedKoristiPositions.keyAt(i)) as MedicinskaKorist)
+                }
+            }
+
+            val selectedProfilOkusaPosition = profilOkusaLV.checkedItemPosition
+            val profilOkusa = if (selectedProfilOkusaPosition != ListView.INVALID_POSITION) {
+                profilOkusaLV.adapter.getItem(selectedProfilOkusaPosition) as ProfilOkusaBiljke
+            } else {
+                null
+            }
+
+            val selectedJela = mutableListOf<String>()
+            for (i in 0 until jelaAdapter.count) {
+                val jelo = jelaAdapter.getItem(i)
+                if (jelo != null) {
+                    selectedJela.add(jelo)
+                }
+            }
+
+            val selectedKlimatskiTipoviPositions = klimatskiTipLV.checkedItemPositions
+            val selectedKlimatskiTipovi = mutableListOf<KlimatskiTip>()
+            for (i in 0 until selectedKlimatskiTipoviPositions.size()) {
+                if (selectedKlimatskiTipoviPositions.valueAt(i)) {
+                    selectedKlimatskiTipovi.add(klimatskiTipLV.adapter.getItem(selectedKlimatskiTipoviPositions.keyAt(i)) as KlimatskiTip)
+                }
+            }
+
+            val selectedZemljisniTipoviPositions = zemljisniTipLV.checkedItemPositions
+            val selectedZemljisniTipovi = mutableListOf<Zemljiste>()
+            for (i in 0 until selectedZemljisniTipoviPositions.size()) {
+                if (selectedZemljisniTipoviPositions.valueAt(i)) {
+                    selectedZemljisniTipovi.add(zemljisniTipLV.adapter.getItem(selectedZemljisniTipoviPositions.keyAt(i)) as Zemljiste)
+                }
+            }
+            val novaBiljka = Biljka(nazivBiljke,porodicaBiljke,medUpozorenjeBiljke,selectedMedKoristi,profilOkusa!!,selectedJela,selectedKlimatskiTipovi,selectedZemljisniTipovi)
+            NovaBiljkaSingleton.novaBiljkaLiveData.value = novaBiljka
+            finish()
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

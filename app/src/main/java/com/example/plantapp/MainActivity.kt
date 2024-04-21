@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var BotanicbiljkeRvAdapter : BotanicBiljkaAdapter
     private lateinit var originalnaLista : ArrayList<Biljka>
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -147,6 +148,12 @@ class MainActivity : AppCompatActivity() {
                 MedbiljkeRvAdapter = MedBiljkaAdapter(biljkeLista)
                 biljkeRV.adapter = MedbiljkeRvAdapter
             }
+
         }
+
+        NovaBiljkaSingleton.novaBiljkaLiveData.observe(this) { novaBiljka ->
+            biljkeLista.add(novaBiljka)
+            MedbiljkeRvAdapter.notifyDataSetChanged()
         }
+    }
 }
