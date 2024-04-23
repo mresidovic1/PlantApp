@@ -7,4 +7,9 @@ enum class Zemljiste(val naziv: String) {
     CRNICA("Crnica"),
     SLJUNKOVITO("Šljunovito zemljište"),
     KRECNJACKO("Krečnjačko zemljište");
+    companion object{
+        fun getOpisi() : List<String>{
+            return Zemljiste.entries.map {it.naziv}
+        }
+    }
 }

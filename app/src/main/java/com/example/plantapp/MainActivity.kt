@@ -153,6 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         NovaBiljkaSingleton.novaBiljkaLiveData.observe(this) { novaBiljka ->
             biljkeLista.add(novaBiljka)
+            originalnaLista.add(novaBiljka)
             MedbiljkeRvAdapter.notifyDataSetChanged()
         }
     }

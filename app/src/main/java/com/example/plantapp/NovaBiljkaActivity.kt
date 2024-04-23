@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
+import com.google.android.material.snackbar.Snackbar
 
 class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var medKoristLV : ListView
@@ -51,14 +52,14 @@ class NovaBiljkaActivity : AppCompatActivity() {
         porodica=findViewById(R.id.porodicaET)
         medUpozorenje=findViewById(R.id.medicinskoUpozorenjeET)
         jelo=findViewById(R.id.jeloET)
-        val medKoristi = MedicinskaKorist.entries.toTypedArray()
-        val klimatskiTipovi = KlimatskiTip.entries.toTypedArray()
-        val zemljisniTipovi = Zemljiste.entries.toTypedArray()
-        val profiliOkusa = ProfilOkusaBiljke.entries.toTypedArray()
-        val medArrayAdapter : ArrayAdapter<MedicinskaKorist> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,medKoristi)
-        val klimatskiTipoviArrayAdapter : ArrayAdapter<KlimatskiTip> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,klimatskiTipovi)
-        val zemljisniTipoviArrayAdapter : ArrayAdapter<Zemljiste> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,zemljisniTipovi)
-        val profilOkusaAdapter : ArrayAdapter<ProfilOkusaBiljke> = ArrayAdapter(this, android.R.layout.simple_list_item_checked,profiliOkusa)
+        val medKoristi = MedicinskaKorist.getOpisi()
+        val klimatskiTipovi = KlimatskiTip.getOpisi()
+        val zemljisniTipovi = Zemljiste.getOpisi()
+        val profiliOkusa = ProfilOkusaBiljke.getOpisi()
+        val medArrayAdapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,medKoristi)
+        val klimatskiTipoviArrayAdapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,klimatskiTipovi)
+        val zemljisniTipoviArrayAdapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,zemljisniTipovi)
+        val profilOkusaAdapter : ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_checked,profiliOkusa)
         medKoristLV.adapter=medArrayAdapter
         klimatskiTipLV.adapter=klimatskiTipoviArrayAdapter
         zemljisniTipLV.adapter=zemljisniTipoviArrayAdapter
@@ -73,16 +74,20 @@ class NovaBiljkaActivity : AppCompatActivity() {
         dodajJeloBtn.setOnClickListener {
             val novoJelo = jelo.text.toString()
             if (novoJelo.isNotEmpty()) {
-                if (izmjenaJela) {
-                    jela[pozicija] = novoJelo
-                    jelaAdapter.notifyDataSetChanged()
-                    jelo.setText("")
-                    dodajJeloBtn.text = "Dodaj jelo"
-                    izmjenaJela = false
-                } else {
-                    jela.add(novoJelo)
-                    jelaAdapter.notifyDataSetChanged()
-                    jelo.setText("")
+                val jeloVecPostoji = jela.any { it.equals(novoJelo, ignoreCase = true) }
+                if (jeloVecPostoji) jelo.setError("Jelo je već dodano u listu!")
+                else {
+                    if (izmjenaJela) {
+                        jela[pozicija] = novoJelo
+                        jelaAdapter.notifyDataSetChanged()
+                        jelo.setText("")
+                        dodajJeloBtn.text = "Dodaj jelo"
+                        izmjenaJela = false
+                    } else {
+                        jela.add(novoJelo)
+                        jelaAdapter.notifyDataSetChanged()
+                        jelo.setText("")
+                    }
                 }
             }
         }
@@ -100,25 +105,49 @@ class NovaBiljkaActivity : AppCompatActivity() {
             try {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             } catch (e: ActivityNotFoundException) {
-                // display error state to the user
+                // greska
             }
         }
         dodajBiljkuBtn.setOnClickListener {
             val nazivBiljke = naziv.text.toString()
             val porodicaBiljke = porodica.text.toString()
             val medUpozorenjeBiljke = medUpozorenje.text.toString()
+            var valid : Boolean = true
+            if(naziv.length()<=2 || naziv.length()>=20){
+                naziv.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+                valid=false
+            }
+            if(porodica.length()<=2 || porodica.length()>=20){
+                porodica.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+                valid=false
+            }
+            if(medUpozorenje.length()<=2 || medUpozorenje.length()>=20){
+                medUpozorenje.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+                valid=false
+            }
+            if(jelo.length()<=2 || jelo.length()>=20){
+                jelo.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+                valid=false
+            }
 
             val selectedMedKoristiPositions = medKoristLV.checkedItemPositions
             val selectedMedKoristi = mutableListOf<MedicinskaKorist>()
             for (i in 0 until selectedMedKoristiPositions.size()) {
                 if (selectedMedKoristiPositions.valueAt(i)) {
-                    selectedMedKoristi.add(medKoristLV.adapter.getItem(selectedMedKoristiPositions.keyAt(i)) as MedicinskaKorist)
+                    val selectedOpis = medKoristLV.adapter.getItem(selectedMedKoristiPositions.keyAt(i)) as String
+                    val selectedEnum = MedicinskaKorist.entries.find { it.opis == selectedOpis }
+                    selectedEnum?.let {
+                        selectedMedKoristi.add(it)
+                    }
                 }
             }
 
+
             val selectedProfilOkusaPosition = profilOkusaLV.checkedItemPosition
-            val profilOkusa = if (selectedProfilOkusaPosition != ListView.INVALID_POSITION) {
-                profilOkusaLV.adapter.getItem(selectedProfilOkusaPosition) as ProfilOkusaBiljke
+            val profilOkusa=if (selectedProfilOkusaPosition != ListView.INVALID_POSITION) {
+                val selectedOpis=profilOkusaLV.adapter.getItem(selectedProfilOkusaPosition)
+                val selectedEnum=ProfilOkusaBiljke.entries.find{it.opis==selectedOpis}
+                selectedEnum
             } else {
                 null
             }
@@ -131,11 +160,30 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 }
             }
 
+            if (selectedJela.isEmpty()) {
+                Snackbar.make(dodajBiljkuBtn, "Morate dodati barem jedno jelo.", Snackbar.LENGTH_SHORT).show()
+                valid = false
+            }
+
+            if (selectedProfilOkusaPosition == ListView.INVALID_POSITION) {
+                Snackbar.make(dodajBiljkuBtn, "Morate odabrati profil okusa.", Snackbar.LENGTH_SHORT).show()
+                valid = false
+            }
+
+            if (selectedMedKoristi.isEmpty()) {
+                Snackbar.make(dodajBiljkuBtn, "Mora biti odabrana barem jedna medicinska korist.", Snackbar.LENGTH_SHORT).show()
+                valid = false
+            }
+
             val selectedKlimatskiTipoviPositions = klimatskiTipLV.checkedItemPositions
             val selectedKlimatskiTipovi = mutableListOf<KlimatskiTip>()
             for (i in 0 until selectedKlimatskiTipoviPositions.size()) {
                 if (selectedKlimatskiTipoviPositions.valueAt(i)) {
-                    selectedKlimatskiTipovi.add(klimatskiTipLV.adapter.getItem(selectedKlimatskiTipoviPositions.keyAt(i)) as KlimatskiTip)
+                    val selectedOpis = klimatskiTipLV.adapter.getItem(selectedKlimatskiTipoviPositions.keyAt(i)) as String
+                    val selectedEnum = KlimatskiTip.entries.find { it.opis == selectedOpis }
+                    selectedEnum?.let {
+                        selectedKlimatskiTipovi.add(it)
+                    }
                 }
             }
 
@@ -143,12 +191,36 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val selectedZemljisniTipovi = mutableListOf<Zemljiste>()
             for (i in 0 until selectedZemljisniTipoviPositions.size()) {
                 if (selectedZemljisniTipoviPositions.valueAt(i)) {
-                    selectedZemljisniTipovi.add(zemljisniTipLV.adapter.getItem(selectedZemljisniTipoviPositions.keyAt(i)) as Zemljiste)
+                    val selectedOpis = zemljisniTipLV.adapter.getItem(selectedZemljisniTipoviPositions.keyAt(i)) as String
+                    val selectedEnum = Zemljiste.entries.find { it.naziv == selectedOpis }
+                    selectedEnum?.let {
+                        selectedZemljisniTipovi.add(it)
+                    }
                 }
             }
-            val novaBiljka = Biljka(nazivBiljke,porodicaBiljke,medUpozorenjeBiljke,selectedMedKoristi,profilOkusa!!,selectedJela,selectedKlimatskiTipovi,selectedZemljisniTipovi)
-            NovaBiljkaSingleton.novaBiljkaLiveData.value = novaBiljka
-            finish()
+
+            if(selectedKlimatskiTipovi.isEmpty()){
+                Snackbar.make(dodajBiljkuBtn, "Mora biti odabran barem jedan klimatski tip.", Snackbar.LENGTH_SHORT).show()
+                valid=false
+            }
+            if(selectedZemljisniTipovi.isEmpty()){
+                Snackbar.make(dodajBiljkuBtn, "Mora biti odabran barem jedan zemljišni tip.", Snackbar.LENGTH_SHORT).show()
+                valid=false
+            }
+            if(valid) {
+                val novaBiljka = Biljka(
+                    nazivBiljke,
+                    porodicaBiljke,
+                    medUpozorenjeBiljke,
+                    selectedMedKoristi,
+                    profilOkusa!!,
+                    selectedJela,
+                    selectedKlimatskiTipovi,
+                    selectedZemljisniTipovi
+                )
+                NovaBiljkaSingleton.novaBiljkaLiveData.value = novaBiljka
+                finish()
+            }
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
