@@ -113,20 +113,20 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val porodicaBiljke = porodica.text.toString()
             val medUpozorenjeBiljke = medUpozorenje.text.toString()
             var valid : Boolean = true
-            if(naziv.length()<=2 || naziv.length()>=20){
-                naziv.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+            if(naziv.length()<2 || naziv.length()>20){
+                naziv.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
                 valid=false
             }
-            if(porodica.length()<=2 || porodica.length()>=20){
-                porodica.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+            if(porodica.length()<2 || porodica.length()>20){
+                porodica.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
                 valid=false
             }
-            if(medUpozorenje.length()<=2 || medUpozorenje.length()>=20){
-                medUpozorenje.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+            if(medUpozorenje.length()<2 || medUpozorenje.length()>20){
+                medUpozorenje.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
                 valid=false
             }
-            if(jelo.length()<=2 || jelo.length()>=20){
-                jelo.setError("Riječ mora sadržavati više od 2, a manje od 20 karaktera")
+            if((jelo.length()<2 || jelo.length()>20) && jelo.length()!=0){
+                jelo.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
                 valid=false
             }
 

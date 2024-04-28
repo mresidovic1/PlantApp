@@ -1,26 +1,19 @@
 package com.example.plantapp
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.hamcrest.CoreMatchers.any
-import org.hamcrest.CoreMatchers.anyOf
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.anything
-import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 @RunWith(AndroidJUnit4::class)
 class Test {
@@ -32,65 +25,65 @@ class Test {
 
     @Test
     fun testKratakNaziv() {
-        onView(withId(R.id.nazivET)).perform(typeText("da"), closeSoftKeyboard())
+        onView(withId(R.id.nazivET)).perform(typeText("d"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.nazivET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.nazivET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun predugNaziv() {
         onView(withId(R.id.nazivET)).perform(typeText("nazivnazivnazivnazivnaziv"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.nazivET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.nazivET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun testKratkaPorodica() {
         onView(withId(R.id.porodicaET)).perform(typeText("a"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.porodicaET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.porodicaET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun predugaPorodica() {
         onView(withId(R.id.porodicaET)).perform(typeText("porodicaporodicaporodica"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.porodicaET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.porodicaET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun testKratkoUpozorenje() {
         onView(withId(R.id.medicinskoUpozorenjeET)).perform(typeText(" "), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.medicinskoUpozorenjeET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.medicinskoUpozorenjeET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun predugoUpozorenje() {
         onView(withId(R.id.medicinskoUpozorenjeET)).perform(typeText("upozorenjeupozorenjeupozorenje"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.medicinskoUpozorenjeET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.medicinskoUpozorenjeET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun testKratkoJelo() {
         onView(withId(R.id.jeloET)).perform(typeText("j"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun predugoJelo() {
         onView(withId(R.id.jeloET)).perform(typeText("jelojelojelojelojelojelojelojelojelo"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera")))
+        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")))
     }
 
     @Test
     fun normalanNaziv() {
         onView(withId(R.id.nazivET)).perform(typeText("normalnaRijec"), closeSoftKeyboard())
         onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
-        onView(withId(R.id.nazivET)).check(matches(Matchers.not(hasErrorText("Riječ mora sadržavati više od 2, a manje od 20 karaktera"))))
+        onView(withId(R.id.nazivET)).check(matches(Matchers.not(hasErrorText("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera"))))
     }
 
     @Test
