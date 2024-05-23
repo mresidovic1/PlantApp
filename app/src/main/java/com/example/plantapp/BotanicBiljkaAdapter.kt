@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BotanicBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<BotanicBiljkaAdapter.BotanicViewHolder>(){
     private lateinit var botanicListener : OnItemClickListener
@@ -33,6 +36,10 @@ class BotanicBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Ada
         holder.nazivItem.text = trenutniItem.naziv
         holder.klimatskiTipItem.text = trenutniItem.klimatskiTipovi.getOrNull(0)?.opis
         holder.zemljisniTipItem.text = trenutniItem.zemljisniTipovi.getOrNull(0)?.naziv
+        CoroutineScope(Dispatchers.Main).launch {
+            val imageBitmap = TrefleDAO().getImage(trenutniItem)
+            holder.slikaItem.setImageBitmap(imageBitmap)
+        }
     }
 
     class BotanicViewHolder (itemView : View,listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView){

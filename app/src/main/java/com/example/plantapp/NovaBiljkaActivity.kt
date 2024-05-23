@@ -16,6 +16,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var medKoristLV : ListView
@@ -218,8 +221,11 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     selectedKlimatskiTipovi,
                     selectedZemljisniTipovi
                 )
-                NovaBiljkaSingleton.novaBiljkaLiveData.value = novaBiljka
-                finish()
+                GlobalScope.launch(Dispatchers.Main) {
+                    val fixedBiljka = TrefleDAO().fixData(novaBiljka)
+                    NovaBiljkaSingleton.novaBiljkaLiveData.value = fixedBiljka
+                    finish()
+                }
             }
         }
     }

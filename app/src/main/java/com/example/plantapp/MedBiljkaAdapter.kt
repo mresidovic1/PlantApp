@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MedBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<MedBiljkaAdapter.BiljkaViewHolder>(){
 
@@ -36,6 +39,10 @@ class MedBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter
         holder.korist1Item.text = trenutniItem.medicinskeKoristi.getOrNull(0)?.opis
         holder.korist2Item.text = trenutniItem.medicinskeKoristi.getOrNull(1)?.opis
         holder.korist3Item.text = trenutniItem.medicinskeKoristi.getOrNull(2)?.opis
+        CoroutineScope(Dispatchers.Main).launch {
+            val imageBitmap = TrefleDAO().getImage(trenutniItem)
+            holder.slikaItem.setImageBitmap(imageBitmap)
+        }
     }
 
     class BiljkaViewHolder (itemView : View, listener:OnItemClickListener) : RecyclerView.ViewHolder(itemView){

@@ -153,3 +153,9 @@ val biljke = listOf(
     )
 )
 
+fun getLatinskiNaziv(naziv: String): String? {
+    val regex = "\\(([^)]+)\\)".toRegex()
+    val matchResult = regex.find(naziv)
+    return matchResult?.groups?.get(1)?.value
+}
+

@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CookBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<CookBiljkaAdapter.CookViewHolder>(){
     private lateinit var cookListener : OnItemClickListener
@@ -34,6 +37,10 @@ class CookBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapte
         holder.jelo1Item.text = trenutniItem.jela.getOrNull(0)
         holder.jelo2Item.text = trenutniItem.jela.getOrNull(1)
         holder.jelo3Item.text = trenutniItem.jela.getOrNull(2)
+        CoroutineScope(Dispatchers.Main).launch {
+            val imageBitmap = TrefleDAO().getImage(trenutniItem)
+            holder.slikaItem.setImageBitmap(imageBitmap)
+        }
     }
 
     class CookViewHolder (itemView : View,listener:OnItemClickListener) : RecyclerView.ViewHolder(itemView){
