@@ -30,7 +30,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
@@ -41,9 +41,9 @@
         android:id="@+id/resetBtn"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/zaobljeni_button"
         android:backgroundTint="#805E7220"
         android:fontFamily="sans-serif-condensed"
@@ -72,5 +72,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/modSpinner"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutPretraga"
+        android:layout_width="270dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="#800F130A"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/biljkeRV"
+        app:layout_constraintVertical_bias="0.08">
+
+        <EditText
+            android:id="@+id/pretragaET"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/zaobljeni_textview"
+            android:ems="10"
+            android:hint="Pretraži"
+            android:inputType="text" />
+
+        <Spinner
+            android:id="@+id/bojaSPIN"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/zaobljeni_spinner" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/brzaPretraga"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/zaobljeni_button"
+            android:text="Brza pretraga"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@ class CookBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapte
         val context : Context = holder.slikaItem.context
         val id : Int = context.resources.getIdentifier("plant1","drawable",context.packageName)
         holder.slikaItem.setImageResource(id)
-        holder.profilOkusaItem.text = trenutniItem.profilOkusa.opis
+        holder.profilOkusaItem.text = trenutniItem.profilOkusa?.opis ?: ""
         holder.nazivItem.text = trenutniItem.naziv
         holder.jelo1Item.text = trenutniItem.jela.getOrNull(0)
         holder.jelo2Item.text = trenutniItem.jela.getOrNull(1)

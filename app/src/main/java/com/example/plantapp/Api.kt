@@ -19,10 +19,10 @@ interface Api {
         @Query("token") token: String ="b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA"
     ): Call<PlantDetailsResponse>
 
-    @GET("plants/search")
+    @GET("plants")
     fun getPlantsWithFlowerColor(
         @Query("filter[flower_color]") flowerColor: String,
-        @Query("filter[scientific_name]") substr: String,
-        @Query("token") token : String = "b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA"
+        @Query("token") token: String = "b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA"
     ): Call<PlantSearchResponse>
+
 }

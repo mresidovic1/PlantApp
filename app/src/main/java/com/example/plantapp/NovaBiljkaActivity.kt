@@ -12,9 +12,6 @@ import android.widget.ImageView
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.get
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -116,10 +113,16 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val porodicaBiljke = porodica.text.toString()
             val medUpozorenjeBiljke = medUpozorenje.text.toString()
             var valid : Boolean = true
-            if(naziv.length()<2 || naziv.length()>20){
-                naziv.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
-                valid=false
+            val nazivRegex = Regex("^[a-zA-ZčćžšđČĆŽŠĐ\\s]+\\s?\\([a-zA-ZčćžšđČĆŽŠĐ\\s]+\\)$")
+            if (!nazivBiljke.matches(nazivRegex)) {
+                naziv.error = "Naziv mora biti u formatu 'naziv (latinski_naziv)'"
+                valid = false
             }
+            if(naziv.length()<2 || naziv.length()>40) {
+                naziv.setError("Riječ mora sadržavati najmanje 2, ali ne više od 40 karaktera")
+                valid = false
+            }
+
             if(porodica.length()<2 || porodica.length()>20){
                 porodica.setError("Riječ mora sadržavati najmanje 2, ali ne više od 20 karaktera")
                 valid=false

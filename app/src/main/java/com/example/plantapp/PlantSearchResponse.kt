@@ -12,6 +12,7 @@ data class PlantData(
     @SerializedName("id") val id: Int?,
     @SerializedName("image_url") val image_url: String?,
     @SerializedName("family") val family: String?,
+    @SerializedName("scientific_name") val name : String?
 )
 
 data class Links(
@@ -31,6 +32,7 @@ data class PlantDetailsResponse(
 )
 
 data class PlantDetails(
+    @SerializedName("scientific_name") val scientific_name: String?,
     @SerializedName("main_species") val main_species: MainSpecies?,
     @SerializedName("family") val family: Family?
 )
@@ -40,7 +42,12 @@ data class MainSpecies(
     @SerializedName("edible") val edible: Boolean?,
     @SerializedName("specifications") val specifications: Specifications?,
     @SerializedName("toxicity") val toxicity: Boolean?,
+    @SerializedName("flower") val flower : Flower?
     )
+
+data class Flower(
+    @SerializedName("color") val color : List<String>?
+)
 
 data class Family(
     @SerializedName("id") val id: Int?,
