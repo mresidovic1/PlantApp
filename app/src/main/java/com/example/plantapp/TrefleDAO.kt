@@ -67,95 +67,41 @@ class TrefleDAO {
                             }
                             //toksicnost
                             val toksicnost = plantDetail?.data?.main_species?.toxicity
-                            if (toksicnost != null && !toksicnost && !biljka.medicinskoUpozorenje.contains("TOKSIČNO")) {
+                            if (toksicnost != null && !biljka.medicinskoUpozorenje.contains("TOKSIČNO")) {
                                 biljka.medicinskoUpozorenje += " TOKSIČNO"
                             }
                             //zemljisni tipovi
-                            val soilTexture = plantDetail?.data?.main_species?.specifications?.growth?.soil_texture
-                            if(soilTexture!=null){
-                                if(soilTexture in 1..2){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.GLINENO }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.GLINENO)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.GLINENO)
-                                    }
-                                }
-                                else if(soilTexture in 3..4){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.PJESKOVITO }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.PJESKOVITO)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.PJESKOVITO)
-                                    }
-                                }
-                                else if(soilTexture in 5..6){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.ILOVACA }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.ILOVACA)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.ILOVACA)
-                                    }
-                                }
-                                else if(soilTexture in 7..8){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.CRNICA }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.CRNICA)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.CRNICA)
-                                    }
-                                }
-                                else if(soilTexture==9){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.SLJUNKOVITO }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.SLJUNKOVITO)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.SLJUNKOVITO)
-                                    }
-                                }
-                                else if(soilTexture==10){
-                                    biljka.zemljisniTipovi = biljka.zemljisniTipovi.filter { it == Zemljiste.KRECNJACKO }.toMutableList()
-                                    if(!biljka.zemljisniTipovi.contains(Zemljiste.KRECNJACKO)){
-                                        biljka.zemljisniTipovi.toMutableList().add(Zemljiste.KRECNJACKO)
-                                    }
-                                }
-                                else{
-                                    biljka.zemljisniTipovi = emptyList()
-                                }
+                            val soilTexture = plantDetail?.data?.main_species?.growth?.soil_texture
+                            val mapaDozvoljenihVrijednostiZT = mapOf(
+                                "SLJUNKOVITO" to listOf(9),
+                                "KRECNJACKO" to listOf(10),
+                                "GLINENO" to listOf(1, 2),
+                                "PJESKOVITO" to listOf(3, 4),
+                                "ILOVACA" to listOf(5, 6),
+                                "CRNICA" to listOf(7, 8)
+                            )
+
+                            if (soilTexture != null) {
+                                biljka.zemljisniTipovi = mapaDozvoljenihVrijednostiZT.entries.filter { (_, opseg) ->
+                                    soilTexture in opseg
+                                }.map { (vrijednost, _) -> Zemljiste.valueOf(vrijednost) }
                             }
                             //klimatski tipovi
-                            val light = plantDetail?.data?.main_species?.specifications?.growth?.light
-                            val atmosphericHumidity = plantDetail?.data?.main_species?.specifications?.growth?.atmospheric_humidity
+                            val light = plantDetail?.data?.main_species?.growth?.light
+                            val atmosphericHumidity = plantDetail?.data?.main_species?.growth?.atmospheric_humidity
+                            val mapaDozvoljenihVrijednosti = mapOf(
+                                "SREDOZEMNA" to (6..9 to 1..5),
+                                "TROPSKA" to (8..10 to 7..10),
+                                "SUBTROPSKA" to (6..9 to 5..8),
+                                "UMJERENA" to (4..7 to 3..7),
+                                "SUHA" to (7..9 to 1..2),
+                                "PLANINSKA" to (0..5 to 3..7)
+                            )
                             if(light!=null && atmosphericHumidity!=null){
-                                if(light in 0..5 && atmosphericHumidity in 3..7){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.PLANINSKA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.PLANINSKA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.PLANINSKA)
-                                    }
-                                }
-                                else if(light in 4..7 && atmosphericHumidity in 3..7){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.UMJERENA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.UMJERENA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.UMJERENA)
-                                    }
-                                }
-                                else if(light in 6..9 && atmosphericHumidity in 1..5){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.SREDOZEMNA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.SREDOZEMNA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SREDOZEMNA)
-                                    }
-                                }
-                                else if(light in 6..9 && atmosphericHumidity in 5..8){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.SUBTROPSKA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.SUBTROPSKA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SUBTROPSKA)
-                                    }
-                                }
-                                else if(light in 7..9 && atmosphericHumidity in 1..2){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.SUHA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.SUHA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SUHA)
-                                    }
-                                }
-                                else if(light in 8..10 && atmosphericHumidity in 7..10){
-                                    biljka.klimatskiTipovi = biljka.klimatskiTipovi.filter { it == KlimatskiTip.TROPSKA }.toMutableList()
-                                    if(!biljka.klimatskiTipovi.contains(KlimatskiTip.TROPSKA)){
-                                        biljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.TROPSKA)
-                                    }
-                                }
-                                else{
-                                    biljka.klimatskiTipovi = emptyList()
-                                }
+                                biljka.klimatskiTipovi=mapaDozvoljenihVrijednosti.entries.filter{ (_, opseg) ->
+                                    val(lightOpseg,humidityOpseg)=opseg
+                                    light in lightOpseg && atmosphericHumidity in humidityOpseg
+                                }.map{(vrijednost, _) -> KlimatskiTip.valueOf(vrijednost)}
                             }
                         }
                     }
@@ -171,124 +117,81 @@ class TrefleDAO {
         return withContext(Dispatchers.IO) {
             val resultList = mutableListOf<Biljka>()
             try {
-                val response: Response<PlantSearchResponse> = ApiAdapter.retrofit.getPlantsWithFlowerColor(
-                    flower_color
-                ).execute()
-                val responseBody = response.body()
-                val plantInfo = responseBody?.data
-                for(biljka in plantInfo!!){
-                    val id: Int? = biljka.id
-                    val responseDetail = ApiAdapter.retrofit.getPlantDetails(id).execute()
-                    val plantDetail = responseDetail.body()
-                    if(plantDetail?.data?.scientific_name?.contains(substr,ignoreCase = true) == true){
-                        val light = plantDetail?.data?.main_species?.specifications?.growth?.light
-                        val atmosphericHumidity = plantDetail?.data?.main_species?.specifications?.growth?.atmospheric_humidity
-                        val nazivRegex = Regex("^[a-zA-ZčćžšđČĆŽŠĐ\\s]+\\s?\\([a-zA-ZčćžšđČĆŽŠĐ\\s]+\\)$")
-                        var filtriraniNaziv = biljka.name
-                        if (!biljka.name?.matches(nazivRegex)!!) {
-                            filtriraniNaziv = "($filtriraniNaziv)"
-                        }
-                        val filtriranaBiljka = Biljka(
-                            naziv = filtriraniNaziv!!,
-                            porodica = plantDetail?.data?.family?.name ?: "",
-                            medicinskoUpozorenje = "",
-                            medicinskeKoristi = emptyList(),
-                            profilOkusa = null,
-                            jela = emptyList(),
-                            zemljisniTipovi = emptyList(),
-                            klimatskiTipovi = emptyList()
-                        )
-                        if(light!=null && atmosphericHumidity!=null){
-                            if(light in 0..5 && atmosphericHumidity in 3..7){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.PLANINSKA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.PLANINSKA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.PLANINSKA)
-                                }
+                var page = 1
+                var totalPages: Int
+                do {
+                    val response: Response<PlantSearchResponse> = ApiAdapter.retrofit.getPlantsWithFlowerColor(
+                        flower_color, query = substr, page = page
+                    ).execute()
+                    val responseBody = response.body()
+                    val plantInfo = responseBody?.data
+                    totalPages = (responseBody?.meta?.total ?: 1) / 20
+                    for(biljka in plantInfo!!){
+                        val id: Int? = biljka.id
+                        val responseDetail = ApiAdapter.retrofit.getPlantDetails(id).execute()
+                        val plantDetail = responseDetail.body()
+                            val nazivRegex = Regex("^[a-zA-ZčćžšđČĆŽŠĐ\\s]+\\s?\\([a-zA-ZčćžšđČĆŽŠĐ\\s]+\\)$")
+                            var filtriraniNaziv = biljka.name
+                            if (!biljka.name?.matches(nazivRegex)!!) {
+                                filtriraniNaziv = "($filtriraniNaziv)"
                             }
-                            else if(light in 4..7 && atmosphericHumidity in 3..7){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.UMJERENA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.UMJERENA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.UMJERENA)
-                                }
-                            }
-                            else if(light in 6..9 && atmosphericHumidity in 1..5){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.SREDOZEMNA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.SREDOZEMNA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SREDOZEMNA)
-                                }
-                            }
-                            else if(light in 6..9 && atmosphericHumidity in 5..8){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.SUBTROPSKA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.SUBTROPSKA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SUBTROPSKA)
-                                }
-                            }
-                            else if(light in 7..9 && atmosphericHumidity in 1..2){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.SUHA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.SUHA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.SUHA)
-                                }
-                            }
-                            else if(light in 8..10 && atmosphericHumidity in 7..10){
-                                filtriranaBiljka.klimatskiTipovi = filtriranaBiljka.klimatskiTipovi.filter { it == KlimatskiTip.TROPSKA }.toMutableList()
-                                if(!filtriranaBiljka.klimatskiTipovi.contains(KlimatskiTip.TROPSKA)){
-                                    filtriranaBiljka.klimatskiTipovi.toMutableList().add(KlimatskiTip.TROPSKA)
-                                }
+                            val filtriranaBiljka = Biljka(
+                                naziv = filtriraniNaziv!!,
+                                porodica = plantDetail?.data?.family?.name ?: "",
+                                medicinskoUpozorenje = "",
+                                medicinskeKoristi = emptyList(),
+                                profilOkusa = null,
+                                jela = emptyList(),
+                                zemljisniTipovi = emptyList(),
+                                klimatskiTipovi = emptyList()
+                            )
+                            //klimatski tipovi
+                            val light = plantDetail?.data?.main_species?.growth?.light
+                            val atmosphericHumidity = plantDetail?.data?.main_species?.growth?.atmospheric_humidity
+                            val mapaDozvoljenihVrijednosti = mapOf(
+                                "SREDOZEMNA" to (6..9 to 1..5),
+                                "TROPSKA" to (8..10 to 7..10),
+                                "SUBTROPSKA" to (6..9 to 5..8),
+                                "UMJERENA" to (4..7 to 3..7),
+                                "SUHA" to (7..9 to 1..2),
+                                "PLANINSKA" to (0..5 to 3..7)
+                            )
+                            if(light!=null && atmosphericHumidity!=null){
+                                filtriranaBiljka.klimatskiTipovi=mapaDozvoljenihVrijednosti.entries.filter{ (_, opseg) ->
+                                    val(lightOpseg,humidityOpseg)=opseg
+                                    light in lightOpseg && atmosphericHumidity in humidityOpseg
+                                }.map{(vrijednost, _) -> KlimatskiTip.valueOf(vrijednost)}
                             }
                             else{
-                                filtriranaBiljka.klimatskiTipovi= emptyList()
+                                filtriranaBiljka.klimatskiTipovi = emptyList()
                             }
-                        }
-                        val soilTexture = plantDetail?.data?.main_species?.specifications?.growth?.soil_texture
-                        if(soilTexture!=null){
-                            if(soilTexture in 1..2){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.GLINENO }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.GLINENO)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.GLINENO)
-                                }
-                            }
-                            else if(soilTexture in 3..4){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.PJESKOVITO }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.PJESKOVITO)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.PJESKOVITO)
-                                }
-                            }
-                            else if(soilTexture in 5..6){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.ILOVACA }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.ILOVACA)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.ILOVACA)
-                                }
-                            }
-                            else if(soilTexture in 7..8){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.CRNICA }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.CRNICA)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.CRNICA)
-                                }
-                            }
-                            else if(soilTexture==9){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.SLJUNKOVITO }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.SLJUNKOVITO)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.SLJUNKOVITO)
-                                }
-                            }
-                            else if(soilTexture==10){
-                                filtriranaBiljka.zemljisniTipovi = filtriranaBiljka.zemljisniTipovi.filter { it == Zemljiste.KRECNJACKO }.toMutableList()
-                                if(!filtriranaBiljka.zemljisniTipovi.contains(Zemljiste.KRECNJACKO)){
-                                    filtriranaBiljka.zemljisniTipovi.toMutableList().add(Zemljiste.KRECNJACKO)
-                                }
+                            //zemljisni tipovi
+                            val soilTexture = plantDetail?.data?.main_species?.growth?.soil_texture
+                            val mapaDozvoljenihVrijednostiZT = mapOf(
+                                "SLJUNKOVITO" to listOf(9),
+                                "KRECNJACKO" to listOf(10),
+                                "GLINENO" to listOf(1, 2),
+                                "PJESKOVITO" to listOf(3, 4),
+                                "ILOVACA" to listOf(5, 6),
+                                "CRNICA" to listOf(7, 8)
+                            )
+
+                            if (soilTexture != null) {
+                                filtriranaBiljka.zemljisniTipovi = mapaDozvoljenihVrijednostiZT.entries.filter { (_, opseg) ->
+                                    soilTexture in opseg
+                                }.map { (vrijednost, _) -> Zemljiste.valueOf(vrijednost) }
                             }
                             else{
                                 filtriranaBiljka.zemljisniTipovi = emptyList()
                             }
+                            resultList.add(filtriranaBiljka)
                         }
-                        resultList.add(filtriranaBiljka)
-                    }
-                }
+                    page++
+                } while (page <= totalPages)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
             return@withContext resultList
         }
     }
-
 }

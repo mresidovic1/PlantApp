@@ -25,7 +25,6 @@ data class Meta(
     val total : Int?
 )
 
-
 data class PlantDetailsResponse(
     val data: PlantDetails,
     val meta: Meta
@@ -40,9 +39,9 @@ data class PlantDetails(
 data class MainSpecies(
     @SerializedName("id") val id: Int?,
     @SerializedName("edible") val edible: Boolean?,
-    @SerializedName("specifications") val specifications: Specifications?,
     @SerializedName("toxicity") val toxicity: Boolean?,
-    @SerializedName("flower") val flower : Flower?
+    @SerializedName("flower") val flower : Flower?,
+    @SerializedName("growth") val growth: Growth?
     )
 
 data class Flower(
@@ -52,10 +51,6 @@ data class Flower(
 data class Family(
     @SerializedName("id") val id: Int?,
     @SerializedName("name") val name: String?
-)
-
-data class Specifications(
-    @SerializedName("growth") val growth: Growth?
 )
 
 data class Growth(

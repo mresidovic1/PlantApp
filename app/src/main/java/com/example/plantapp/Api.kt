@@ -6,7 +6,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface Api {
-
     @GET("plants/search")
     fun getPlantInfo(
         @Query("q") query: String,
@@ -19,10 +18,11 @@ interface Api {
         @Query("token") token: String ="b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA"
     ): Call<PlantDetailsResponse>
 
-    @GET("plants")
+    @GET("plants/search")
     fun getPlantsWithFlowerColor(
         @Query("filter[flower_color]") flowerColor: String,
-        @Query("token") token: String = "b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA"
+        @Query("q") query : String,
+        @Query("token") token: String = "b4V-0hycfnbcwhxuxmtdwH7rn2BD1hOr32hX0GmdcbA",
+        @Query("page") page: Int? = 1
     ): Call<PlantSearchResponse>
-
 }

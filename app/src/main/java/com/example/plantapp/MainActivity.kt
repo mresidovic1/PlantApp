@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -165,14 +166,12 @@ class MainActivity : AppCompatActivity() {
                             val query = pretragaET.text.toString()
                             val selectedColor = bojaSpinner.selectedItem.toString()
                             if(query.isNotEmpty()){
-                                GlobalScope.launch(Dispatchers.Main) {
+                                CoroutineScope(Dispatchers.Main).launch {
                                     var results : List<Biljka> = emptyList()
-                                    if(query!="") {
                                         results = TrefleDAO().getPlantsWithFlowerColor(
                                             selectedColor,
                                             query
                                         )
-                                    }
                                     if(results.isNotEmpty()){
                                         BotanicbiljkeRvAdapter.updateList(results)
                                     }
