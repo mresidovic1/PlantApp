@@ -1,5 +1,6 @@
 package com.example.plantapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -86,6 +87,9 @@ class TrefleDAO {
                                     soilTexture in opseg
                                 }.map { (vrijednost, _) -> Zemljiste.valueOf(vrijednost) }
                             }
+                            else{
+                                biljka.zemljisniTipovi= emptyList()
+                            }
                             //klimatski tipovi
                             val light = plantDetail?.data?.main_species?.growth?.light
                             val atmosphericHumidity = plantDetail?.data?.main_species?.growth?.atmospheric_humidity
@@ -102,6 +106,9 @@ class TrefleDAO {
                                     val(lightOpseg,humidityOpseg)=opseg
                                     light in lightOpseg && atmosphericHumidity in humidityOpseg
                                 }.map{(vrijednost, _) -> KlimatskiTip.valueOf(vrijednost)}
+                            }
+                            else{
+                                biljka.klimatskiTipovi= emptyList()
                             }
                         }
                     }
@@ -181,7 +188,7 @@ class TrefleDAO {
                                     soilTexture in opseg
                                 }.map { (vrijednost, _) -> Zemljiste.valueOf(vrijednost) }
                             }
-                            else{
+                            else {
                                 filtriranaBiljka.zemljisniTipovi = emptyList()
                             }
                             resultList.add(filtriranaBiljka)
