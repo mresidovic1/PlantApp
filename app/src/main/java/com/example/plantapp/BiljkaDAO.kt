@@ -5,6 +5,7 @@ import androidx.room.*
 
 @Dao
 interface BiljkaDAO {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun saveBiljka(biljka: Biljka): Boolean {
         return insertBiljka(biljka) != -1L
@@ -18,6 +19,7 @@ interface BiljkaDAO {
 
     @Update
     fun updateBiljka(biljka: Biljka)
+
 
     //testirati
     @Transaction
