@@ -19,6 +19,7 @@ interface BiljkaDAO {
     @Update
     fun updateBiljka(biljka: Biljka)
 
+    //testirati
     @Transaction
     suspend fun fixOfflineBiljka(): Int {
         val offlineBiljkas = getOfflineBiljkas()
