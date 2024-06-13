@@ -8,7 +8,6 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.io.IOException
 import java.net.URL
-import java.util.Locale
 
 
 class TrefleDAO {

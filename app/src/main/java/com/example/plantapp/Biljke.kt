@@ -1,6 +1,6 @@
 package com.example.plantapp
 
-val biljke = listOf(
+var biljke = listOf(
     Biljka(
         naziv = "Bosiljak (Ocimum basilicum)",
         porodica = "Lamiaceae (usnate)",

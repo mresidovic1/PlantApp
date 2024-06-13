@@ -3,6 +3,7 @@ package com.example.plantapp
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ArrayAdapter
@@ -13,9 +14,11 @@ import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var medKoristLV : ListView
@@ -24,6 +27,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var jelaLV : ListView
     private lateinit var profilOkusaLV : ListView
     private lateinit var dodajJeloBtn : Button
+    private var capturedBitmap: Bitmap? = null
     private lateinit var dodajBiljkuBtn : Button
     private lateinit var naziv : EditText
     private lateinit var uslikajBiljkuBtn : Button
@@ -215,19 +219,46 @@ class NovaBiljkaActivity : AppCompatActivity() {
             }
             if(valid) {
                 val novaBiljka = Biljka(
-                    nazivBiljke,
-                    porodicaBiljke,
-                    medUpozorenjeBiljke,
-                    selectedMedKoristi,
-                    profilOkusa!!,
-                    selectedJela,
-                    selectedKlimatskiTipovi,
-                    selectedZemljisniTipovi
+                    naziv = nazivBiljke,
+                    porodica = porodicaBiljke,
+                    medicinskoUpozorenje = medUpozorenjeBiljke,
+                    medicinskeKoristi = selectedMedKoristi,
+                    profilOkusa = profilOkusa!!,
+                    jela = selectedJela,
+                    klimatskiTipovi = selectedKlimatskiTipovi,
+                    zemljisniTipovi = selectedZemljisniTipovi
                 )
-                GlobalScope.launch(Dispatchers.Main) {
+
+                CoroutineScope(Dispatchers.IO).launch {
                     val fixedBiljka = TrefleDAO().fixData(novaBiljka)
-                    NovaBiljkaSingleton.novaBiljkaLiveData.value = fixedBiljka
-                    finish()
+                    val database = BiljkaDatabase.getDatabase(applicationContext)
+                    val biljkaDAO = database.biljkaDAO()
+                    val biljkaSaved = biljkaDAO.saveBiljka(fixedBiljka)
+                    if (biljkaSaved) {
+                        val biljkaId = biljkaDAO.getBiljkaIdByNaziv(nazivBiljke)
+                        val imageBitmap = capturedBitmap
+                        val imageSaved = if (imageBitmap == null) {
+                            val bitmap = TrefleDAO().getImage(novaBiljka)
+                            biljkaDAO.addImage(biljkaId, bitmap)
+                        } else {
+                            val bitmap = (biljkaImage.drawable as BitmapDrawable).bitmap
+                            biljkaDAO.addImage(biljkaId, bitmap)
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            if (imageSaved) {
+                                Snackbar.make(dodajBiljkuBtn, "Biljka i slika uspješno dodani.", Snackbar.LENGTH_SHORT).show()
+                            } else {
+                                Snackbar.make(dodajBiljkuBtn, "Biljka dodana, greška pri dodavanju slike.", Snackbar.LENGTH_SHORT).show()
+                            }
+                            NovaBiljkaSingleton.novaBiljkaLiveData.value = fixedBiljka
+                            finish()
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Snackbar.make(dodajBiljkuBtn, "Greška pri dodavanju biljke.", Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
@@ -235,8 +266,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            biljkaImage.setImageBitmap(imageBitmap)
+            capturedBitmap = data?.extras?.get("data") as Bitmap
+            biljkaImage.setImageBitmap(capturedBitmap)
         }
     }
 }
