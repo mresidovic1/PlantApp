@@ -9,7 +9,7 @@ import android.content.Context
 @Database(entities = arrayOf(Biljka::class, BiljkaBitmap::class), version = 2)
 @TypeConverters(Konverteri::class)
 abstract class BiljkaDatabase : RoomDatabase() {
-    abstract fun biljkaDAO(): BiljkaDAO
+    abstract fun biljkaDao(): BiljkaDAO
 
     companion object {
         private var INSTANCE: BiljkaDatabase? = null

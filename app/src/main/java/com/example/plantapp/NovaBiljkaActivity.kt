@@ -232,7 +232,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val fixedBiljka = TrefleDAO().fixData(novaBiljka)
                     val database = BiljkaDatabase.getDatabase(applicationContext)
-                    val biljkaDAO = database.biljkaDAO()
+                    val biljkaDAO = database.biljkaDao()
                     val biljkaSaved = biljkaDAO.saveBiljka(fixedBiljka)
                     if (biljkaSaved) {
                         val biljkaId = biljkaDAO.getBiljkaIdByNaziv(nazivBiljke)

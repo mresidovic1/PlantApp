@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val database=BiljkaDatabase.getDatabase(applicationContext)
-        val biljkaDAO=database.biljkaDAO()
+        val biljkaDAO=database.biljkaDao()
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 originalnaLista = ArrayList(biljkaDAO.getAllBiljkas())

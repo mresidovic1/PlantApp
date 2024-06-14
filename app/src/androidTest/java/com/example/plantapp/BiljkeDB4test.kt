@@ -60,7 +60,7 @@ class BiljkeDB4test {
             val scenarioRule = ActivityScenario.launch(MainActivity::class.java)
             context = ApplicationProvider.getApplicationContext()
             roomDb = Room.inMemoryDatabaseBuilder(context, BiljkaDatabase::class.java).build()
-            biljkaDAO = roomDb.biljkaDAO()
+            biljkaDAO = roomDb.biljkaDao()
             biljkaDAO.getAllBiljkas()
             db = roomDb.openHelper.readableDatabase
 
