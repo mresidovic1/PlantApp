@@ -1,6 +1,7 @@
 package com.example.plantapp
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BotanicBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Adapter<BotanicBiljkaAdapter.BotanicViewHolder>(){
     private lateinit var botanicListener : OnItemClickListener
@@ -37,8 +39,37 @@ class BotanicBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Ada
         holder.klimatskiTipItem.text = trenutniItem.klimatskiTipovi.getOrNull(0)?.opis
         holder.zemljisniTipItem.text = trenutniItem.zemljisniTipovi.getOrNull(0)?.naziv
         CoroutineScope(Dispatchers.Main).launch {
-            val imageBitmap = TrefleDAO().getImage(trenutniItem)
-            holder.slikaItem.setImageBitmap(imageBitmap)
+            val database=BiljkaDatabase.getDatabase(context)
+            val biljkaDAO=database.biljkaDao()
+            val imageBitmap = withContext(Dispatchers.IO){
+                val idBiljke=biljkaDAO.getAllBiljkas().find { it.naziv==trenutniItem.naziv }?.id
+                if(idBiljke!=null){
+                    val bitmapa = biljkaDAO.getImageById(idBiljke)
+                    if(bitmapa!=null){
+                        bitmapa.bitmap
+                    }
+                    else{
+                        val servisBiljka=TrefleDAO().getImage(trenutniItem)
+                        servisBiljka.let{
+                            val visina=150
+                            val sirina=150
+                            val normalizovanaSlika=cropBitmap(it,visina,sirina)
+                            if (normalizovanaSlika != null) {
+                                biljkaDAO.addImage(idBiljke = idBiljke, normalizovanaSlika)
+                            }
+                            normalizovanaSlika
+                        }
+                    }
+                }
+                else{
+                    TrefleDAO().getImage(trenutniItem)
+                }
+            } /*TrefleDAO().getImage(trenutniItem)
+            holder.slikaItem.setImageBitmap(imageBitmap)*/
+
+            if(imageBitmap!=null){
+                holder.slikaItem.setImageBitmap(imageBitmap)
+            }
         }
     }
 
@@ -54,8 +85,26 @@ class BotanicBiljkaAdapter(private var biljke : List<Biljka>) : RecyclerView.Ada
             }
         }
     }
+
     fun updateList(srodnaLista : List<Biljka>){
         biljke=srodnaLista
         notifyDataSetChanged()
+    }
+
+    fun cropBitmap(bitmap: Bitmap?, width: Int, height: Int): Bitmap? {
+        bitmap ?: return null
+
+        val bitmapWidth = bitmap.width
+        val bitmapHeight = bitmap.height
+
+        val centerX = bitmapWidth / 2
+        val centerY = bitmapHeight / 2
+
+        val cropLeft = centerX - width / 2
+        val cropTop = centerY - height / 2
+        val cropRight = centerX + width / 2
+        val cropBottom = centerY + height / 2
+
+        return Bitmap.createBitmap(bitmap, cropLeft, cropTop, width, height)
     }
 }

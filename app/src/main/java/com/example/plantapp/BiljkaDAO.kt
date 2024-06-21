@@ -18,22 +18,21 @@ interface BiljkaDAO {
     fun getOfflineBiljkas(): List<Biljka>
 
     @Update
-    fun updateBiljka(biljka: Biljka)
+    suspend fun updateBiljka(biljka: Biljka) : Int
 
 
-    //testirati
     @Transaction
     suspend fun fixOfflineBiljka(): Int {
         val offlineBiljkas = getOfflineBiljkas()
-        var updatedCount = 0
+        var brojIspravljenih = 0
         offlineBiljkas.forEach { biljka ->
             val fixedBiljka = TrefleDAO().fixData(biljka)
             if (biljka != fixedBiljka) {
                 updateBiljka(fixedBiljka.copy(onlineChecked = true))
-                updatedCount++
+                brojIspravljenih++
             }
         }
-        return updatedCount
+        return brojIspravljenih
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

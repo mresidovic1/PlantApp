@@ -236,21 +236,23 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     val biljkaSaved = biljkaDAO.saveBiljka(fixedBiljka)
                     if (biljkaSaved) {
                         val biljkaId = biljkaDAO.getBiljkaIdByNaziv(nazivBiljke)
-                        val imageBitmap = capturedBitmap
+                        capturedBitmap?.let{ bitmap ->
+                            val visina = 150
+                            val sirina = 150
+                            val normalizovanaSlika = cropBitmap(bitmap,visina,sirina)
+                            if (normalizovanaSlika != null) {
+                                biljkaDAO.addImage(biljkaId,normalizovanaSlika)
+                            }
+                        }
+                        /*val imageBitmap = capturedBitmap
                         val imageSaved = if (imageBitmap == null) {
                             val bitmap = TrefleDAO().getImage(novaBiljka)
                             biljkaDAO.addImage(biljkaId, bitmap)
                         } else {
                             val bitmap = (biljkaImage.drawable as BitmapDrawable).bitmap
                             biljkaDAO.addImage(biljkaId, bitmap)
-                        }
-
+                        }*/
                         withContext(Dispatchers.Main) {
-                            if (imageSaved) {
-                                Snackbar.make(dodajBiljkuBtn, "Biljka i slika uspješno dodani.", Snackbar.LENGTH_SHORT).show()
-                            } else {
-                                Snackbar.make(dodajBiljkuBtn, "Biljka dodana, greška pri dodavanju slike.", Snackbar.LENGTH_SHORT).show()
-                            }
                             NovaBiljkaSingleton.novaBiljkaLiveData.value = fixedBiljka
                             finish()
                         }
@@ -263,6 +265,24 @@ class NovaBiljkaActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun cropBitmap(bitmap: Bitmap?, width: Int, height: Int): Bitmap? {
+        bitmap ?: return null
+
+        val bitmapWidth = bitmap.width
+        val bitmapHeight = bitmap.height
+
+        val centerX = bitmapWidth / 2
+        val centerY = bitmapHeight / 2
+
+        val cropLeft = centerX - width / 2
+        val cropTop = centerY - height / 2
+        val cropRight = centerX + width / 2
+        val cropBottom = centerY + height / 2
+
+        return Bitmap.createBitmap(bitmap, cropLeft, cropTop, width, height)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {

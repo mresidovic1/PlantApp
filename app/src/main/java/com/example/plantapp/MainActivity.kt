@@ -40,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 originalnaLista = ArrayList(biljkaDAO.getAllBiljkas())
+                if (originalnaLista.isEmpty()) {
+                    biljke.forEach { biljka ->
+                        biljkaDAO.saveBiljka(biljka)
+                    }
+                    originalnaLista = ArrayList(biljkaDAO.getAllBiljkas())
+                }
             }
             biljkeLista = ArrayList(originalnaLista)
             initUI()
